@@ -37,54 +37,37 @@ Registeration Number : 212223040122
 ```
 MainActivity.java
 ```
-package com.example.exp2;
+package com.example.implicitintent;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText editText;
-    Button button;
+    Button btnOpenGoogle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        editText = findViewById(R.id.editText);
-        button = findViewById(R.id.button);
+        btnOpenGoogle = findViewById(R.id.btnOpenGoogle);
 
-        button.setOnClickListener(view -> {
+        btnOpenGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-            String url = editText.getText().toString().trim();
+                // Implicit Intent to open Google
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://www.google.com"));
 
-            // Check if input is empty
-            if (url.isEmpty()) {
-                Toast.makeText(MainActivity.this,
-                        "Please enter a URL",
-                        Toast.LENGTH_SHORT).show();
-                return;
+                startActivity(intent);
             }
-
-            // Add https:// if not entered
-            if (!url.startsWith("http://") &&
-                    !url.startsWith("https://")) {
-
-                url = "https://" + url;
-            }
-
-            // Implicit Intent to open browser
-            Intent intent = new Intent(Intent.ACTION_VIEW,
-                    Uri.parse(url));
-
-            startActivity(intent);
         });
     }
 }
@@ -93,52 +76,19 @@ public class MainActivity extends AppCompatActivity {
 activity_main.xml
 ```
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Implicit Intent"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="80dp" />
-
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="32dp"
-        android:hint="Enter URL"
-        android:inputType="textUri"
-        android:text="https://www.google.com"
-        app:layout_constraintTop_toBottomOf="@id/textView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    android:gravity="center"
+    android:orientation="vertical">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnOpenGoogle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Open Website"
-        android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@id/editText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:text="Open Google" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
 ```
 
 ## OUTPUT
